@@ -1,3 +1,4 @@
+//Define colors for different Pokemon Types
 const typeColor = {
     bug: "#26de81",
     dragon: "#ffeaa7",
@@ -16,16 +17,18 @@ const typeColor = {
     rock: "#2d3436",
     water: "#0190FF",
   };
+  //URL for the Pokemon API
   const url = " https://pokeapi.co/api/v2/pokemon/";
+  //Get References to HTML elements by their IDs
   const card = document.getElementById("card");
   const button = document.getElementById("button");
   
+  //Function to fetch and display Pokemon data
   let getPokeData = () => {
-   
     let id = Math.floor(Math.random() * 150) + 1;
     const finalUrl = url + id;
-    fetch(finalUrl)
-      .then((response) => response.json())
+    fetch(finalUrl) //Fetch data from the PokeAPI
+      .then((response) => response.json()) //// Parse the response as JSON
       .then((data) => {
         generateCard(data);
       });
@@ -33,17 +36,17 @@ const typeColor = {
   
  
   
-  let generateCard = (data) => {
+  let generateCard = (data) => { //Function to generate and display Pokemon card
     
     console.log(data);
-    const hp = data.stats[0].base_stat;
+    const hp = data.stats[0].base_stat; //Extract data from API response
     const imgSrc = data.sprites.other.dream_world.front_default;
-    const pokeName = data.name[0].toUpperCase() + data.name.slice(1);
+    const pokeName = data.name[0].toUpperCase() + data.name.slice(1); // Capitalize the first letter of the Pokemon
     const statAttack = data.stats[1].base_stat;
     const statDefense = data.stats[2].base_stat;
     const statSpeed = data.stats[5].base_stat;
   
-    
+//Match the color for the card based on the Pokemon's type    
     const themeColor = typeColor[data.types[0].type.name];
     console.log(themeColor);
     card.innerHTML = `
@@ -71,7 +74,7 @@ const typeColor = {
             </div>
           </div>
     `;
-    appendTypes(data.types);
+    appendTypes(data.types); // Add the Pokemon types
     styleCard(themeColor);
   };
   let appendTypes = (types) => {
