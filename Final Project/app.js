@@ -1,3 +1,5 @@
+// app.js
+
 // Define colors for different Pokemon Types
 export const typeColor = {
     bug: "#26de81",
@@ -43,6 +45,22 @@ export const typeColor = {
     });
   };
   
+  const getGeneration = (id) => {
+    if (id <= 151) {
+      return 'Generation 1';
+    } else if (id <= 251) {
+      return 'Generation 2';
+    } else if (id <= 386) {
+      return 'Generation 3';
+    } else if (id <= 493) {
+      return 'Generation 4';
+    } else if (id <= 649) {
+      return 'Generation 5';
+    } else {
+      return 'Generation 6 and beyond';
+    }
+  };
+  
   let generateCard = (data) => {
     console.log(data);
     const hp = data.stats[0].base_stat;
@@ -51,6 +69,7 @@ export const typeColor = {
     const statAttack = data.stats[1].base_stat;
     const statDefense = data.stats[2].base_stat;
     const statSpeed = data.stats[5].base_stat;
+    const generation = getGeneration(data.id);
   
     // Match the color for the card based on the Pokemon's type
     const themeColor = typeColor[data.types[0].type.name];
@@ -63,6 +82,7 @@ export const typeColor = {
           </p>
           <img src="${imgSrc}" />
           <h2 class="poke-name">${pokeName}</h2>
+          <p class="generation">${generation}</p>
           <div class="types">
            
           </div>
@@ -79,14 +99,17 @@ export const typeColor = {
               <h3>${statSpeed}</h3>
               <p>Speed</p>
             </div>
-          </div>
-    `;
+      `;
     appendTypes(data.types); // Add the Pokemon types
     styleCard(themeColor);
   
     // Example usage of the filter method to get fire-type Pokémon
     const fireTypePokemon = filterByType(data, 'fire');
     console.log('Fire-type Pokémon:', fireTypePokemon);
+  
+    // Example usage of the map method to extract type names
+    const typeNames = data.types.map((type) => capitalizeName(type.type.name));
+    console.log('Type Names:', typeNames);
   };
   
   const appendTypes = (types) => {
